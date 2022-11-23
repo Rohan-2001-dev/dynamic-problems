@@ -1,0 +1,36 @@
+    def collectGold(self,gold, x, y, n, m, dp):
+ 
+    # Base condition.
+        if ((x < 0) or (x == n) or (y == m)):
+            return 0
+ 
+        if(dp[x][y] != -1):
+            return dp[x][y]
+ 
+    # Right upper diagonal
+        rightUpperDiagonal = self.collectGold(gold, x - 1, y + 1, n, m, dp)
+ 
+        # right
+        right = self.collectGold(gold, x, y + 1, n, m, dp)
+ 
+    # Lower right diagonal
+        rightLowerDiagonal = self.collectGold(gold, x + 1, y + 1, n, m, dp)
+ 
+    # Return the maximum and store the value
+        dp[x][y] = gold[x][y] + max(max(rightUpperDiagonal, rightLowerDiagonal), right)
+        return dp[x][y]
+  
+ 
+    def maxGold(self,n,m,gold):
+ 
+        maxold = 0
+    # Initialize the dp vector
+        dp = [[-1 for i in range(m)]for j in range(n)]
+     
+        for i in range(n):
+ 
+        # Recursive function call for  ith row.
+            goldCollected = self.collectGold(gold, i, 0, n, m, dp) 
+            maxold = max(maxold, goldCollected)
+ 
+        return maxold
